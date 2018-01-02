@@ -1,11 +1,13 @@
 import React from 'react';
-import './App.css';
-import { Button } from 'antd';
 import Stories from './Stories';
+import SearchStories from './SearchStories';
+import './App.css';
 
-const App = ({ stories, onArchive }) => (
+const App = () => (
   <div className="app">
-    <Stories stories={stories} onArchive={onArchive} />
+    <SearchStories />
+    <Stories />
   </div>
 );
+
 export default App;

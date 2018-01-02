@@ -1,4 +1,7 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { getReadableStories } from '../selectors/story';
+import { Spin } from 'antd';
 import Story from './Story';
 import './Stories.css';
 
@@ -24,19 +27,24 @@ const COLUMNS = {
   }
 };
 
-const Stories = ({ stories, onArchive }) => (
-  <div className="stories">
-    <StoriesHeader columns={COLUMNS} />
-    {(stories || []).map(story => (
-      <Story
-        key={story.objectID}
-        story={story}
-        columns={COLUMNS}
-        onArchive={onArchive}
+const Stories = ({ stories }) => {
+  if (stories.length === 0) {
+    return (
+      <Spin
+        size="large"
+        style={{ position: 'absolute', top: '25%', left: '50%' }}
       />
-    ))}
-  </div>
-);
+    );
+  }
+  return (
+    <div className="stories">
+      <StoriesHeader columns={COLUMNS} />
+      {(stories || []).map(story => (
+        <Story key={story.objectID} story={story} columns={COLUMNS} />
+      ))}
+    </div>
+  );
+};
 
 const StoriesHeader = ({ columns }) => (
   <div className="stories-header">
@@ -48,4 +56,9 @@ const StoriesHeader = ({ columns }) => (
   </div>
 );
 
-export default Stories;
+const mapStateToProps = state => ({
+  stories: getReadableStories(state)
+});
+
+const ConnectedStories = connect(mapStateToProps)(Stories);
+export default ConnectedStories;

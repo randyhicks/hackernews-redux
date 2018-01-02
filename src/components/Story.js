@@ -1,6 +1,8 @@
 import React from 'react';
-import './Story.css';
+import { connect } from 'react-redux';
+import { doArchiveStory } from '../actions/archive';
 import { Button } from 'antd';
+import './Story.css';
 
 const Story = ({ story, columns, onArchive }) => {
   const { title, url, author, num_comments, points, objectID } = story;
@@ -21,4 +23,9 @@ const Story = ({ story, columns, onArchive }) => {
   );
 };
 
-export default Story;
+const mapDispatchToProps = {
+  onArchive: doArchiveStory
+};
+
+const ConnectedStory = connect(null, mapDispatchToProps)(Story);
+export default ConnectedStory;
